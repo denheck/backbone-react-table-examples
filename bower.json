@@ -1,0 +1,29 @@
+{
+  "name": "marionette-todo",
+  "version": "0.0.0",
+  "authors": [
+    "Dennis Heckman <denheck@gmail.com>"
+  ],
+  "description": "Marionette TODO example",
+  "main": "index.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "marionette",
+    "todo"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "marionette": "~2.3.2",
+    "bootstrap": "~3.3.2"
+  }
+}
