@@ -1,0 +1,16 @@
+{
+  "name": "structure-guide",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Dennis Heckman",
+  "license": "MIT",
+  "dependencies": {
+    "bower": "~1.3.12",
+    "express": "~4.0.0",
+    "morgan": "~1.0.0",
+    "mongoose": "~3.6.13",
+    "body-parser": "~1.0.1"
+  }
+}
