@@ -1,28 +1,17 @@
-define(function (require) {
-    var Marionette = require('marionette');
-    //var Bears = require('collections/bears');
-    //var BearsTable = require('views/bears-table');
+var Bears = require('../collections/bears');
 
-    /**
-     * The basic structure of a CRUD controller. Includes create, edit and list pages for modifying a database table.
-     */
-    return Marionette.Controller.extend({
-        initialize: function () {
-            this.layout = this.getOption('layout');
-        },
+/**
+ * The basic structure of a CRUD controller. Includes create, edit and list pages for modifying a database table.
+ */
+module.exports = {
+    list: function () {
+        var bears = new Bears();
+        bears.fetch();
+    },
+    create: function () {
 
-        list: function () {
-            //var bears = new Bears();
-            //var bearsTable = new BearsTable({
-            //    collection: bears
-            //});
-            //this.layout.getRegion('main').show(bearsTable);
-        },
-        create: function () {
+    },
+    edit: function (id) {
 
-        },
-        edit: function (id) {
-
-        }
-    });
-});
+    }
+};

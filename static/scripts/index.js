@@ -1,19 +1,18 @@
-require(["backbone", "router"], function (Backbone, Router) {
-    var app = new Backbone.Marionette.Application();
-    var router = new Router();
+/**
+ * Bootstrap backbone
+ */
+var Backbone = require('backbone');
+var jQuery = require('jquery');
+Backbone.$ = jQuery;
 
-    /**
-     * Define routes within callback before app starts.
-     */
-    router.listenTo(app, "before:start", router.setup);
+/**
+ * Start routing
+ * @type {exports}
+ */
+var Router = require('./router');
+new Router();
 
-    /**
-     * Start app
-     */
-    app.start();
-
-    /**
-     * Monitor hashchange events and dispatch routes
-     */
-    Backbone.history.start();
-});
+/**
+ * Monitor hashchange events and dispatch routes
+ */
+Backbone.history.start();

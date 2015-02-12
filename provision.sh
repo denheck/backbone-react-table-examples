@@ -5,4 +5,3 @@ apt-get install -y mongodb-org nodejs npm git
 
 # ubuntu saves "node" command as "nodejs"
 ln -s /usr/bin/nodejs /usr/bin/node
-(cd /vagrant/ && npm install -g bower && npm install && bower install)
