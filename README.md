@@ -32,6 +32,13 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
   
 ## Advantages of Browserify - http://browserify.org/index.html
 1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs) 
-2. Use most NPM packages and NodeJS tools in the browser
+2. Use NPM packages and NodeJS tools in the browser
 3. Preferred way to require ReactJS
 4. Good documentation
+5. Less verbose than AMD (requirejs)
+
+## Advantages of React - http://facebook.github.io/react/
+1. JSX is REALLY easy to use, has syntax highlighting in PHPStorm + React browser addon for javascript debugging
+2. Works seamlessly with Backbone as a drop-in view replacement. (https://github.com/magalhas/backbone-react-component)
+3. Virtual DOM does all the heavy lifting in javascript and modifies the DOM in a performant way
+4. Easy Optimistic Updates, update the DOM before the AJAX requests finish when you are certain it will work. 

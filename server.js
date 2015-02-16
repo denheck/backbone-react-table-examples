@@ -22,7 +22,8 @@ mongoose.connect('mongodb://localhost:27017'); // connect to our database
 // define schema
 var Schema       = mongoose.Schema;
 var BearSchema   = new Schema({
-    name: String
+    name: String,
+    location: String
 });
 
 var Bear = mongoose.model('Bear', BearSchema);
