@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
 var mongoose   = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 
 // configure app
 app.use(morgan('dev')); // log requests to the console
@@ -25,8 +26,10 @@ var BearSchema   = new Schema({
     name: String,
     location: String
 });
+BearSchema.plugin(mongoosePaginate);
 
 var Bear = mongoose.model('Bear', BearSchema);
+
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -68,11 +71,16 @@ router.route('/bears')
 
     // get all the bears (accessed at GET http://localhost:8080/api/bears)
     .get(function(req, res) {
-        Bear.find(function(err, bears) {
+        Bear.paginate({}, req.query.page, req.query.per_page, function(err, pageCount, bears, itemCount) {
+
             if (err)
                 res.send(err);
 
-            res.json(bears);
+            res.json({
+                data: bears,
+                total_pages: pageCount,
+                total_entries: itemCount
+            });
         });
     });
 

@@ -19,6 +19,26 @@ var testData = [
         location: 'Upper Peninsula'
     },
     {
+        name: 'John',
+        location: 'South Dakota'
+    },
+    {
+        name: 'Phil',
+        location: 'Minnesota'
+    },
+    {
+        name: 'Jim',
+        location: 'Upper Peninsula'
+    },
+    {
+        name: 'Steve',
+        location: 'Northern Territories'
+    },
+    {
+        name: 'Luke',
+        location: 'Russia'
+    },
+    {
         name: 'Bill',
         location: 'Yukon'
     }

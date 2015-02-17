@@ -1,7 +1,7 @@
-var PageableCollection = require('backbone.paginator');
+var Collection = require('./collection');
 var Bear = require('../models/bear');
 
-module.exports = PageableCollection.extend({
+module.exports = Collection.extend({
     model: Bear,
     url: '/api/bears'
 });

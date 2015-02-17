@@ -49,18 +49,27 @@ module.exports = (function () {
             var Table = React.createClass({
                 mixins: [BackboneReactComponent],
                 render: function () {
+                    var idAttribute = this.props['id-attribute'];
                     var collection = this.props.collection;
-                    var columns = this.props.columns;
+                    var columns = this.props.columns.map(function (column) {
+                        if (_(column).isString()) {
+                            column = { name: column, label: column };
+                        }
+
+                        return column;
+                    });
 
                     var tableRows = collection.map(function (item) {
                         return (
-                            <TableRow key={item.id} data={item} columns={columns} />
+                            <TableRow key={item[idAttribute]} id={item[idAttribute]} data={item} columns={columns} />
                         );
                     });
 
                     var headerRows = columns.map(function (column) {
+                        var key = column.name + '_header';
+
                         return (
-                            <th>{column}</th>
+                            <th key={key}>{column.label}</th>
                         );
                     });
 
@@ -78,10 +87,11 @@ module.exports = (function () {
                 render: function () {
                     var rowData = this.props.data;
                     var columns = this.props.columns;
+                    var id = this.props.id;
 
-                    var tableCells = _(columns).map(function (label) {
-                        var value = rowData[label];
-                        var key = label + "_" + rowData.id;
+                    var tableCells = _(columns).map(function (column) {
+                        var value = rowData[column.name];
+                        var key = column.name + "_" + id;
 
                         return (
                             <td key={key}>{value}</td>
@@ -101,13 +111,16 @@ module.exports = (function () {
             $(function () {
                 // TODO: should pass an array of objects { key: "_id", label: "id" }
                 var columns = [
-                    'id',
+                    {
+                        name: "_id",
+                        label: "id"
+                    },
                     'name',
                     'location'
                 ];
 
                 React.render(
-                    <Table collection={bears} columns={columns}/>,
+                    <Table collection={bears} columns={columns} id-attribute={bears.model.prototype.idAttribute}/>,
                     document.getElementById('main')
                 );
             });
