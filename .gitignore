@@ -3,3 +3,4 @@ node_modules
 static/scripts/bower_components
 .idea
 .vagrant
+static/scripts/main.js
