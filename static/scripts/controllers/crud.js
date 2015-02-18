@@ -55,7 +55,7 @@ module.exports = (function () {
                 mixins: [BackboneReactComponent],
                 render: function () {
                     var idAttribute = this.props['id-attribute'];
-                    var collection = this.props.collection;
+                    var collection = this.getCollection();
                     var columns = this.props.columns.map(function (column) {
                         if (_(column).isString()) {
                             column = { name: column, label: column };
@@ -64,7 +64,9 @@ module.exports = (function () {
                         return column;
                     });
 
-                    var tableRows = collection.map(function (item) {
+                    var tableRows = collection.map(function (model) {
+                        var item = model.attributes;
+
                         return (
                             <TableRow key={item[idAttribute]} id={item[idAttribute]} data={item} columns={columns} />
                         );
@@ -79,11 +81,14 @@ module.exports = (function () {
                     });
 
                     return (
-                        <table className="table table-hover">
-                            <thead>{headerRows}</thead>
-                            <tbody>{tableRows}</tbody>
-                            <tfoot></tfoot>
-                        </table>
+                        <div>
+                            <table className="table table-hover">
+                                <thead>{headerRows}</thead>
+                                <tbody>{tableRows}</tbody>
+                                <tfoot></tfoot>
+                            </table>
+                            <Paginator collection={collection} />
+                        </div>
                     );
                 }
             });
@@ -105,6 +110,30 @@ module.exports = (function () {
 
                     return (
                         <tr>{tableCells}</tr>
+                    );
+                }
+            });
+
+            var Paginator = React.createClass({
+                mixins: [BackboneReactComponent],
+                previous: function (event) {
+                    event.preventDefault();
+                    this.getCollection().getPreviousPage();
+                },
+                next: function (event) {
+                    event.preventDefault();
+                    this.getCollection().getNextPage();
+                },
+                render: function () {
+                    return (
+                        <div class="btn-group" role="group">
+                            <button type="button" className="btn btn-default" onClick={this.previous}>
+                                Previous Page
+                            </button>
+                            <button type="button" className="btn btn-default" onClick={this.next}>
+                                Next Page
+                            </button>
+                        </div>
                     );
                 }
             });
