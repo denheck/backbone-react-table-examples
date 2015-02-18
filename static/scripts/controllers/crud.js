@@ -114,6 +114,7 @@ module.exports = (function () {
                 }
             });
 
+            // TODO: do not allow pagination beyond page range
             var Paginator = React.createClass({
                 mixins: [BackboneReactComponent],
                 previous: function (event) {
@@ -143,7 +144,6 @@ module.exports = (function () {
              */
             // TODO: shouldn't have to use jQuery
             $(function () {
-                // TODO: should pass an array of objects { key: "_id", label: "id" }
                 var columns = [
                     {
                         name: "_id",
