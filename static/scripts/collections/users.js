@@ -1,7 +1,7 @@
 var Collection = require('./collection');
-var Bear = require('../models/bear');
+var User = require('../models/user');
 
 module.exports = Collection.extend({
-    model: Bear,
-    url: '/api/bears'
+    model: User,
+    url: '/api/users'
 });

@@ -1,4 +1,4 @@
-var Bears = require('../collections/bears');
+var Users = require('../collections/users');
 var React = require('react');
 var BackboneReactComponent = require('backbone-react-component');
 var $ = require('jquery');
@@ -8,34 +8,39 @@ var _ = require('underscore');
  * The basic structure of a CRUD controller. Includes create, edit and list pages for modifying a database table.
  */
 module.exports = (function () {
-    var bears = new Bears();
+    var users = new Users();
 
-    var BearForm = React.createClass({
+    var UserForm = React.createClass({
         handleSubmit: function (e) {
             e.preventDefault();
-            var name = this.refs.name.getDOMNode().value.trim();
-            var location = this.refs.location.getDOMNode().value.trim();
+            var firstName = this.refs.first_name.getDOMNode().value.trim();
+            var lastName = this.refs.last_name.getDOMNode().value.trim();
+            var email = this.refs.email.getDOMNode().value.trim();
+            var country = this.refs.country.getDOMNode().value.trim();
 
-            if (!name || !location) {
+            if (!firstName || !lastName || !email || !country) {
                 return;
             }
 
-            bears.create({
-                name: name,
-                location: location
+            users.create({
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                country: country
             });
 
-            this.refs.name.getDOMNode().value = '';
-            this.refs.location.getDOMNode().value = '';
+            this.refs.first_name.getDOMNode().value = '';
+            this.refs.last_name.getDOMNode().value = '';
+            this.refs.email.getDOMNode().value = '';
+            this.refs.country.getDOMNode().value = '';
         },
         render: function () {
-            var name = this.props.name;
-            var location = this.props.location;
-
             return (
                 <form className="bearForm" onSubmit={this.handleSubmit}>
-                    <input type="text" value={name} placeholder="Yogi" ref="name" />
-                    <input type="text" value={location} placeholder="Yellowstone" ref="location" />
+                    <input type="text" placeholder="Yogi" ref="first_name" />
+                    <input type="text" placeholder="Bear" ref="last_name" />
+                    <input type="text" placeholder="yogi.bear@gmail.com" ref="email" />
+                    <input type="text" placeholder="USA" ref="country" />
                     <input type="submit" value="Post" />
                 </form>
             );
@@ -44,7 +49,7 @@ module.exports = (function () {
 
     return {
         list: function () {
-            bears.fetch();
+            users.fetch();
 
             var Table = React.createClass({
                 mixins: [BackboneReactComponent],
@@ -115,12 +120,14 @@ module.exports = (function () {
                         name: "_id",
                         label: "id"
                     },
-                    'name',
-                    'location'
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'country'
                 ];
 
                 React.render(
-                    <Table collection={bears} columns={columns} id-attribute={bears.model.prototype.idAttribute}/>,
+                    <Table collection={users} columns={columns} id-attribute={users.model.prototype.idAttribute}/>,
                     document.getElementById('main')
                 );
             });
@@ -132,21 +139,22 @@ module.exports = (function () {
             // TODO: shouldn't have to use jQuery
             $(function () {
                 React.render(
-                    <BearForm />,
+                    <UserForm />,
                     document.getElementById('main')
                 );
             });
         },
         edit: function (id) {
-            var bear = bears.get(id);
+            var user = users.get(id);
 
             /**
              * render my components in the DOM
              */
             // TODO: shouldn't have to use jQuery
+            // TODO: need to make sure form is populated for editing
             $(function () {
                 React.render(
-                    <BearForm model={bear}/>,
+                    <UserForm model={user}/>,
                     document.getElementById('main')
                 );
             });

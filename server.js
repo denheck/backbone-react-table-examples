@@ -22,13 +22,15 @@ mongoose.connect('mongodb://localhost:27017'); // connect to our database
 
 // define schema
 var Schema       = mongoose.Schema;
-var BearSchema   = new Schema({
-    name: String,
-    location: String
+var UserSchema   = new Schema({
+    first_name: String,
+    last_name: String,
+    email: String,
+    country: String
 });
-BearSchema.plugin(mongoosePaginate);
+UserSchema.plugin(mongoosePaginate);
 
-var Bear = mongoose.model('Bear', BearSchema);
+var User = mongoose.model('User', UserSchema);
 
 
 // ROUTES FOR OUR API
@@ -49,77 +51,80 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// on routes that end in /bears
+// on routes that end in /users
 // ----------------------------------------------------
-router.route('/bears')
+router.route('/users')
 
-    // create a bear (accessed at POST http://localhost:8080/bears)
+    // create a user (accessed at POST http://localhost:8080/users)
     .post(function(req, res) {
 
-        var bear = new Bear();		// create a new instance of the Bear model
-        bear.name = req.body.name;  // set the bears name (comes from the request)
+        var user = new User();		// create a new instance of the User model
+        user.first_name = req.body.first_name;  // set the users name (comes from the request)
+        user.last_name = req.body.last_name;  // set the users name (comes from the request)
+        user.email = req.body.email;  // set the users name (comes from the request)
+        user.country = req.body.country;  // set the users name (comes from the request)
 
-        bear.save(function(err) {
+        user.save(function(err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Bear created!' });
+            res.json({ message: 'User created!' });
         });
 
 
     })
 
-    // get all the bears (accessed at GET http://localhost:8080/api/bears)
+    // get all the users (accessed at GET http://localhost:8080/api/users)
     .get(function(req, res) {
-        Bear.paginate({}, req.query.page, req.query.per_page, function(err, pageCount, bears, itemCount) {
+        User.paginate({}, req.query.page, req.query.per_page, function(err, pageCount, users, itemCount) {
 
             if (err)
                 res.send(err);
 
             res.json({
-                data: bears,
+                data: users,
                 total_pages: pageCount,
                 total_entries: itemCount
             });
         });
     });
 
-// on routes that end in /bears/:bear_id
+// on routes that end in /users/:user_id
 // ----------------------------------------------------
-router.route('/bears/:bear_id')
+router.route('/users/:user_id')
 
-    // get the bear with that id
+    // get the user with that id
     .get(function(req, res) {
-        Bear.findById(req.params.bear_id, function(err, bear) {
+        User.findById(req.params.user_id, function(err, user) {
             if (err)
                 res.send(err);
-            res.json(bear);
+            res.json(user);
         });
     })
 
-    // update the bear with this id
+    // update the user with this id
     .put(function(req, res) {
-        Bear.findById(req.params.bear_id, function(err, bear) {
+        User.findById(req.params.user_id, function(err, user) {
 
             if (err)
                 res.send(err);
 
-            bear.name = req.body.name;
-            bear.save(function(err) {
+            user.name = req.body.name;
+            user.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Bear updated!' });
+                res.json({ message: 'User updated!' });
             });
 
         });
     })
 
-    // delete the bear with this id
+    // delete the user with this id
     .delete(function(req, res) {
-        Bear.remove({
-            _id: req.params.bear_id
-        }, function(err, bear) {
+        User.remove({
+            _id: req.params.user_id
+        }, function(err, user) {
             if (err)
                 res.send(err);
 
