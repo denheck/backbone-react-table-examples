@@ -86,6 +86,9 @@ module.exports = (function () {
 
                     return (
                         <div>
+                            <div>
+                                <ShowCount collection={collection} />
+                            </div>
                             <table className="table table-hover">
                                 <thead>{headerRows}</thead>
                                 <tbody>{tableRows}</tbody>
@@ -163,6 +166,25 @@ module.exports = (function () {
                     var endShown = this.props['end-shown'];
 
                     return (<div>Showing {startShown} to {endShown} of {total} entries</div>);
+                }
+            });
+
+            var ShowCount = React.createClass({
+                mixins: [BackboneReactComponent],
+                changePageSize: function () {
+                    var select = this.refs.page_size.getDOMNode();
+                    var pageSize = parseInt(select.options[select.selectedIndex].value);
+                    this.getCollection().setPageSize(pageSize);
+                },
+                render: function () {
+                    return (
+                        <select onChange={this.changePageSize} ref="page_size">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    );
                 }
             });
 
