@@ -80,14 +80,22 @@ module.exports = (function () {
                         );
                     });
 
+                    var currentPage = collection.state.currentPage;
+                    var startShown = (currentPage - 1) * collection.length + 1;
+                    var endShown = currentPage * collection.length;
+
                     return (
                         <div>
                             <table className="table table-hover">
                                 <thead>{headerRows}</thead>
                                 <tbody>{tableRows}</tbody>
-                                <tfoot></tfoot>
                             </table>
-                            <Paginator collection={collection} />
+                            <div>
+                                <TableCount start-shown={startShown}
+                                            end-shown={endShown}
+                                            total={collection.state.totalRecords} />
+                                <Paginator collection={collection} />
+                            </div>
                         </div>
                     );
                 }
@@ -114,7 +122,6 @@ module.exports = (function () {
                 }
             });
 
-            // TODO: do not allow pagination beyond page range
             var Paginator = React.createClass({
                 mixins: [BackboneReactComponent],
                 previous: function (event) {
@@ -126,16 +133,36 @@ module.exports = (function () {
                     this.getCollection().getNextPage();
                 },
                 render: function () {
+                    var collection = this.getCollection();
+                    var previousDisabled = collection.state.currentPage <= collection.state.firstPage;
+                    var nextDisabled = collection.state.currentPage >= collection.state.totalPages;
+
                     return (
                         <div class="btn-group" role="group">
-                            <button type="button" className="btn btn-default" onClick={this.previous}>
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.previous}
+                                    disabled={previousDisabled}>
                                 Previous Page
                             </button>
-                            <button type="button" className="btn btn-default" onClick={this.next}>
+                            <button type="button"
+                                    className="btn btn-default"
+                                    onClick={this.next}
+                                    disabled={nextDisabled}>
                                 Next Page
                             </button>
                         </div>
                     );
+                }
+            });
+
+            var TableCount = React.createClass({
+                render: function () {
+                    var total = this.props.total;
+                    var startShown = this.props['start-shown'];
+                    var endShown = this.props['end-shown'];
+
+                    return (<div>Showing {startShown} to {endShown} of {total} entries</div>);
                 }
             });
 
