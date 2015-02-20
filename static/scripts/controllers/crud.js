@@ -81,7 +81,7 @@ module.exports = (function () {
                     });
 
                     var currentPage = collection.state.currentPage;
-                    var startShown = (currentPage - 1) * collection.length + 1;
+                    var startShown = collection.length > 0 ? (currentPage - 1) * collection.length + 1 : 0;
                     var endShown = currentPage * collection.length;
 
                     return (
