@@ -144,6 +144,14 @@ var TableCount = React.createClass({
 
 var ShowCount = React.createClass({
     mixins: [BackboneReactComponent],
+    componentWillMount: function () {
+        var collection = this.getCollection();
+
+        if (collection.state.pageSize != 10) {
+            // page size is first option by default
+            this.getCollection().setPageSize(10);
+        }
+    },
     changePageSize: function () {
         var select = this.refs.page_size.getDOMNode();
         var pageSize = parseInt(select.options[select.selectedIndex].value);

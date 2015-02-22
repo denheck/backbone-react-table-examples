@@ -1,6 +1,9 @@
 var PageableCollection = require('backbone.paginator');
 
 module.exports = PageableCollection.extend({
+    state: {
+        pageSize: 10
+    },
     queryParams: {
         totalPages: null,
         totalRecords: null,
