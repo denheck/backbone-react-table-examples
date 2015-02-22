@@ -16,20 +16,33 @@ vagrant up
 vagrant ssh -c 'cd /vagrant/ && node server.js'
 ```
 
+## Plan:
+1. Refactor router to use controllers (see router.js)
+2. Add Browserify library
+  * Install node and npm
+  * Install npm packages browserify, watchify, gulp and any additional dependencies
+  * Add single JS file, main.js, to .gitignore and include file with script tag
+  * Update vagrant box to recompile main.js on change detection with watchify
+  * Change Dockerfile to install required packages and compile main.js on build
+3. Add React support
+  * Install npm packages react, reactify and backbone-react-component
+  * Update gulp build to "reactify" main.js
+4. Add Backbone Paginator
+  * Install npm package backbone paginator
+5. Update single editor to use the new hotness
+6. PROFIT!
+
 ## Advantages:
 1. Multiple controllers with methods mapped to routes
 2. Module loading and defining with Browserify
-3. Front-end dependencies handled using bower and automatically mapped to requirejs via bower-requirejs https://github.com/yeoman/bower-requirejs
-4. One way databinding using Marionette views
-5. Handle pagination with backbone.paginator
-6. Compilation, source map generation and minification handled with Browserify 
+3. Large collection handling with backbone.paginator
+4. Compilation, source map generation and minification handled with Browserify
 
 ## TODO:
-* All "define" files must return a instantiable object or plain object. Do not return instances of objects like this: 
-  return new Foo() 
-* Remove require.js in favor of Browserify
-* Remove Marionette in favor of ReactJS
-  ** Refactor existing Marionette AppRouter to use generic backbone router
+* React Table should save user preferences in a cookie per table
+* Style with Bootstrap
+* Make sure forms work
+* Extract React Table into self contained component which can be required using browserify
   
 ## Advantages of Browserify - http://browserify.org/index.html
 1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs) 
