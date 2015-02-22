@@ -76,6 +76,12 @@ router.route('/users')
 
     // get all the users (accessed at GET http://localhost:8080/api/users)
     .get(function(req, res) {
+        var sortBy = {};
+
+        if (req.query.sort && req.query.order) {
+            sortBy[req.query.sort] = (req.query.order === 'asc') ? -1 : 1;
+        }
+
         User.paginate({}, req.query.page, req.query.per_page, function(err, pageCount, users, itemCount) {
 
             if (err)
@@ -86,7 +92,7 @@ router.route('/users')
                 total_pages: pageCount,
                 total_entries: itemCount
             });
-        });
+        }, {sortBy: sortBy});
     });
 
 // on routes that end in /users/:user_id

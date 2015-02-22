@@ -3,7 +3,8 @@ var PageableCollection = require('backbone.paginator');
 module.exports = PageableCollection.extend({
     queryParams: {
         totalPages: null,
-        totalRecords: null
+        totalRecords: null,
+        sortKey: "sort"
     },
     parseRecords: function (resp) {
         return resp.data;

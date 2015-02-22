@@ -74,10 +74,7 @@ module.exports = (function () {
 
                     var headerRows = columns.map(function (column) {
                         var key = column.name + '_header';
-
-                        return (
-                            <th key={key}>{column.label}</th>
-                        );
+                        return (<TableHeaderRow key={key} label={column.label} name={column.name} collection={collection} />);
                     });
 
                     var currentPage = collection.state.currentPage;
@@ -101,6 +98,31 @@ module.exports = (function () {
                             </div>
                         </div>
                     );
+                }
+            });
+
+            var TableHeaderRow = React.createClass({
+                mixins: [BackboneReactComponent],
+                sortState: null,
+                changeSort: function () {
+                    var collection = this.getCollection();
+
+                    if (this.sortState === 1) {
+                        this.sortState = null;
+                        collection.setSorting(null);
+                    } else if (this.sortState === -1) {
+                        this.sortState = 1;
+                        collection.setSorting(this.props.name, this.sortState);
+                    } else {
+                        this.sortState = -1;
+                        collection.setSorting(this.props.name, this.sortState);
+                    }
+
+                    collection.getFirstPage();
+                },
+                render: function () {
+                    var label = this.props.label;
+                    return (<th onClick={this.changeSort}>{label}</th>);
                 }
             });
 
