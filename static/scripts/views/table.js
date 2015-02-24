@@ -5,9 +5,13 @@ var _ = require('underscore');
 var Table = React.createClass({
     mixins: [BackboneReactComponent],
     render: function () {
-        var idAttribute = this.props['id-attribute'];
         var collection = this.getCollection();
-        var columns = this.props.columns.map(function (column) {
+        var defaults = {};
+
+        var options = _(defaults).extend(this.props.options || {});
+        var idAttribute = collection.model.prototype.idAttribute;
+
+        var columns = options.columns.map(function (column) {
             if (_(column).isString()) {
                 column = { name: column, label: column };
             }
@@ -23,9 +27,15 @@ var Table = React.createClass({
             );
         });
 
-        var headerRows = columns.map(function (column) {
-            var key = column.name + '_header';
-            return (<TableHeaderRow key={key} label={column.label} name={column.name} collection={collection} />);
+        var headerRow = columns.map(function (column) {
+            var headerColumnCallback = column.headerColumnCallback;
+
+            if (_(headerColumnCallback).isFunction()) {
+                return headerColumnCallback(column);
+            } else {
+                var key = column.name + '_header';
+                return (<TableHeaderColumn key={key} label={column.label} name={column.name} collection={collection} />);
+            }
         });
 
         var currentPage = collection.state.currentPage;
@@ -38,7 +48,7 @@ var Table = React.createClass({
                     <ShowCount collection={collection} />
                 </div>
                 <table className="table table-hover">
-                    <thead>{headerRows}</thead>
+                    <thead>{headerRow}</thead>
                     <tbody>{tableRows}</tbody>
                 </table>
                 <div>
@@ -52,7 +62,7 @@ var Table = React.createClass({
     }
 });
 
-var TableHeaderRow = React.createClass({
+var TableHeaderColumn = React.createClass({
     mixins: [BackboneReactComponent],
     sortState: null,
     changeSort: function () {
@@ -83,7 +93,7 @@ var TableRow = React.createClass({
         var columns = this.props.columns;
         var id = this.props.id;
 
-        var tableCells = _(columns).map(function (column) {
+        var tableCells = columns.map(function (column) {
             var value = rowData[column.name];
             var key = column.name + "_" + id;
 

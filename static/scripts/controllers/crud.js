@@ -55,19 +55,40 @@ module.exports = (function () {
              */
             // TODO: shouldn't have to use jQuery
             $(function () {
-                var columns = [
-                    {
-                        name: "_id",
-                        label: "id"
-                    },
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'country'
-                ];
+                /**
+                 * collection: collection (required)
+                 * Options (required):
+                 *
+                 *      columns: array of String column names or object literal with column definitions
+                 *              column definition properties:
+                 *                       name: String column name (required)
+                 *                      label: String column name which appears to the user
+                 *                      sortable: Boolean determining if a collection can be sorted by the column
+                 *                      headerColumnCallback: Function to add custom header column. Should return React component
+                 */
+
+                var options = {
+                    columns: [
+                        {
+                            name: "select",
+                            headerColumnCallback: function (column) {
+                                var key = column.name + '_header';
+                                return (<th><input type="checkbox" key={key} /></th>);
+                            }
+                        },
+                        {
+                            name: "_id",
+                            label: "id"
+                        },
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'country'
+                    ]
+                };
 
                 React.render(
-                    <Table collection={users} columns={columns} id-attribute={users.model.prototype.idAttribute}/>,
+                    <Table options={options} collection={users} />,
                     document.getElementById('main')
                 );
             });
