@@ -28,10 +28,10 @@ var Table = React.createClass({
         });
 
         var headerRow = columns.map(function (column) {
-            var headerColumnCallback = column.headerColumnCallback;
+            var renderColumn = column.render;
 
-            if (_(headerColumnCallback).isFunction()) {
-                return headerColumnCallback(column);
+            if (_(renderColumn).isFunction()) {
+                return renderColumn(column);
             } else {
                 var key = column.name + '_header';
                 return (<TableHeaderColumn key={key} label={column.label} name={column.name} collection={collection} />);
