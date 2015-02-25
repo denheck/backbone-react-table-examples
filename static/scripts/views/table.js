@@ -1,19 +1,23 @@
 var React = require('react');
 var BackboneReactComponent = require('backbone-react-component');
 var _ = require('underscore');
+var $ = require('jquery');
 
 var Table = React.createClass({
     mixins: [BackboneReactComponent],
     render: function () {
         var collection = this.getCollection();
-        var defaults = {};
-
-        var options = _(defaults).extend(this.props.options || {});
-        var idAttribute = collection.model.prototype.idAttribute;
+        var options = this.props.options || {};
 
         var columns = options.columns.map(function (column) {
+            var defaults = {
+                sort: false
+            };
+
             if (_(column).isString()) {
                 column = { name: column, label: column };
+            } else if ($.isPlainObject(column)) {
+                column = _(defaults).extend(column);
             }
 
             return column;
@@ -33,7 +37,7 @@ var Table = React.createClass({
             }
 
             var key = column.name + '_header';
-            return (<TableHeaderColumn key={key} label={column.label} name={column.name} collection={collection} />);
+            return (<TableHeaderColumn key={key} column={column} collection={collection} />);
         });
 
         var currentPage = collection.state.currentPage;
@@ -65,22 +69,30 @@ var TableHeaderColumn = React.createClass({
     sortState: null,
     changeSort: function () {
         var collection = this.getCollection();
+        var column = this.props.column;
+        var name = column.name;
+
+        if (column.sort !== true) {
+            return;
+        }
 
         if (this.sortState === 1) {
             this.sortState = null;
             collection.setSorting(null);
         } else if (this.sortState === -1) {
             this.sortState = 1;
-            collection.setSorting(this.props.name, this.sortState);
+            collection.setSorting(name, this.sortState);
         } else {
             this.sortState = -1;
-            collection.setSorting(this.props.name, this.sortState);
+            collection.setSorting(name, this.sortState);
         }
 
         collection.getFirstPage();
     },
     render: function () {
-        var label = this.props.label;
+        var column = this.props.column;
+        var label = column.label;
+
         return (<th onClick={this.changeSort}>{label}</th>);
     }
 });

@@ -43,11 +43,10 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
 * Style with Bootstrap
 * Make sure forms work
 * Extract React Table into self contained component which can be required using browserify
-* Custom table row callback with custom React row
+* Custom table row callback with custom React row (need a way to add classes to rows)
 * Column picker
-* <td><input type="text" /></td> support
-* Make certain columns unsortable
 * Do I really need React keys?
+* Automatically Headerize column names into labels by default
   
 ## Advantages of Browserify - http://browserify.org/index.html
 1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs) 

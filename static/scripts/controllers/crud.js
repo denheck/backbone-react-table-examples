@@ -79,10 +79,26 @@ module.exports = (function () {
                             name: "_id",
                             label: "id"
                         },
-                        'first_name',
-                        'last_name',
-                        'email',
-                        'country'
+                        {
+                            name: 'first_name',
+                            label: 'first_name',
+                            sort: true
+                        },
+                        {
+                            name: 'last_name',
+                            label: 'last_name',
+                            sort: true
+                        },
+                        {
+                            name: 'email',
+                            label: 'email',
+                            sort: true
+                        },
+                        {
+                            name: 'country',
+                            label: 'country',
+                            sort: true
+                        }
                     ]
                 };
 
