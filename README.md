@@ -47,6 +47,7 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
 * Column picker
 * <td><input type="text" /></td> support
 * Make certain columns unsortable
+* Do I really need React keys?
   
 ## Advantages of Browserify - http://browserify.org/index.html
 1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs) 

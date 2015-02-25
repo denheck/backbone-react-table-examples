@@ -71,9 +71,8 @@ module.exports = (function () {
                     columns: [
                         {
                             name: "select",
-                            render: function (column) {
-                                var key = column.name + '_header';
-                                return (<th><input type="checkbox" key={key} /></th>);
+                            render: function () {
+                                return (<th><input type="checkbox" /></th>);
                             }
                         },
                         {

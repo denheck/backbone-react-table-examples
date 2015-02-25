@@ -20,10 +20,8 @@ var Table = React.createClass({
         });
 
         var tableRows = collection.map(function (model) {
-            var item = model.attributes;
-
             return (
-                <TableRow key={item[idAttribute]} id={item[idAttribute]} data={item} columns={columns} />
+                <TableRow key={model.id} model={model} columns={columns} />
             );
         });
 
@@ -31,11 +29,11 @@ var Table = React.createClass({
             var renderColumn = column.render;
 
             if (_(renderColumn).isFunction()) {
-                return renderColumn(column);
-            } else {
-                var key = column.name + '_header';
-                return (<TableHeaderColumn key={key} label={column.label} name={column.name} collection={collection} />);
+                return renderColumn(column, null, true);
             }
+
+            var key = column.name + '_header';
+            return (<TableHeaderColumn key={key} label={column.label} name={column.name} collection={collection} />);
         });
 
         var currentPage = collection.state.currentPage;
@@ -88,14 +86,20 @@ var TableHeaderColumn = React.createClass({
 });
 
 var TableRow = React.createClass({
+    mixins: [BackboneReactComponent],
     render: function () {
-        var rowData = this.props.data;
+        var model = this.getModel();
         var columns = this.props.columns;
-        var id = this.props.id;
 
         var tableCells = columns.map(function (column) {
-            var value = rowData[column.name];
-            var key = column.name + "_" + id;
+            var renderColumn = column.render;
+
+            if (_(renderColumn).isFunction()) {
+                return renderColumn(column, model, false);
+            }
+
+            var value = model.get(column.name);
+            var key = column.name + "_" + model.id;
 
             return (
                 <td key={key}>{value}</td>
