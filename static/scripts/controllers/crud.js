@@ -1,7 +1,9 @@
 var Users = require('../collections/users');
 var React = require('react');
 var $ = require('jquery');
-var Table = require('backbone-react-table');
+var BackboneReactTable = require('backbone-react-table');
+var Table = BackboneReactTable.Table;
+var TableRow = BackboneReactTable.TableRow;
 
 /**
  * The basic structure of a CRUD controller. Includes create, edit and list pages for modifying a database table.
@@ -99,7 +101,16 @@ module.exports = (function () {
                             label: 'country',
                             sort: true
                         }
-                    ]
+                    ],
+                    rows: {
+                        render: function (model, columns, defaultRender) {
+                            if (model.get('first_name') !== 'Joseph') {
+                                return defaultRender(model);
+                            }
+
+                            return <TableRow className="info" key={model.id} model={model} columns={columns} />
+                        }
+                    }
                 };
 
                 React.render(
