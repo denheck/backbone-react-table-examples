@@ -42,7 +42,6 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
 * React Table should save user preferences in a cookie per table
 * Style with Bootstrap
 * Make sure forms work
-* Extract React Table into self contained component which can be required using browserify
 * Custom table row callback with custom React row (need a way to add classes to rows)
 * Column picker
 * Do I really need React keys?

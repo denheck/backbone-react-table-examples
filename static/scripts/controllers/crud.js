@@ -1,7 +1,7 @@
 var Users = require('../collections/users');
 var React = require('react');
 var $ = require('jquery');
-var Table = require('../views/table');
+var Table = require('backbone-react-table');
 
 /**
  * The basic structure of a CRUD controller. Includes create, edit and list pages for modifying a database table.
