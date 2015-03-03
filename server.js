@@ -32,6 +32,13 @@ UserSchema.plugin(mongoosePaginate);
 
 var User = mongoose.model('User', UserSchema);
 
+var JobSchema = new Schema({
+    name: String,
+    title: String,
+    country: String
+});
+
+var Job = mongoose.model('Job', JobSchema);
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -133,6 +140,71 @@ router.route('/users/:user_id')
         }, function(err, user) {
             if (err)
                 res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
+
+router.route('/jobs')
+
+    // create a job (accessed at POST http://localhost:8080/jobs)
+    .post(function(req, res) {
+
+        var job = new Job;
+        job.title = req.body.title;
+        job.name = req.body.last_name;
+        job.country = req.body.country;
+
+        job.save(function(err) {
+            if (err) res.send(err);
+            res.json({ message: 'Job created!' });
+        });
+
+
+    })
+
+    // get all the jobs (accessed at GET http://localhost:8080/api/jobs)
+    .get(function(req, res) {
+        Job.find(function (err, jobs) {
+            if (err) res.send(err);
+            res.json(jobs);
+        });
+    });
+
+// on routes that end in /jobs/:job_id
+// ----------------------------------------------------
+router.route('/jobs/:job_id')
+
+    // get the job with that id
+    .get(function(req, res) {
+        Job.findById(req.params.job_id, function(err, job) {
+            if (err) res.send(err);
+            res.json(job);
+        });
+    })
+
+    // update the job with this id
+    .put(function(req, res) {
+        Job.findById(req.params.job_id, function(err, job) {
+
+            if (err) res.send(err);
+
+            job.name = req.body.name;
+            job.save(function(err) {
+                if (err) res.send(err);
+
+                res.json({ message: 'Job updated!' });
+            });
+
+        });
+    })
+
+    // delete the user with this id
+    .delete(function(req, res) {
+        Job.remove({
+            _id: req.params.job_id
+        }, function(err) {
+            if (err) res.send(err);
 
             res.json({ message: 'Successfully deleted' });
         });
