@@ -33,7 +33,7 @@ UserSchema.plugin(mongoosePaginate);
 var User = mongoose.model('User', UserSchema);
 
 var JobSchema = new Schema({
-    name: String,
+    company: String,
     title: String,
     country: String
 });
@@ -151,8 +151,8 @@ router.route('/jobs')
     .post(function(req, res) {
 
         var job = new Job;
+        job.company = req.body.company;
         job.title = req.body.title;
-        job.name = req.body.last_name;
         job.country = req.body.country;
 
         job.save(function(err) {
@@ -189,7 +189,9 @@ router.route('/jobs/:job_id')
 
             if (err) res.send(err);
 
-            job.name = req.body.name;
+            job.company = req.body.company;
+            job.title = req.body.title;
+            job.country = req.body.country;
             job.save(function(err) {
                 if (err) res.send(err);
 
@@ -213,7 +215,10 @@ router.route('/jobs/:job_id')
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);
-app.use(express.static('static'));
+app.use('/static/scripts', express.static(__dirname + '/static/scripts'));
+app.use(express.static(__dirname + '/static'));
+
+
 
 // START THE SERVER
 // =============================================================================
