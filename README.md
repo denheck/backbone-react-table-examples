@@ -16,6 +16,11 @@ vagrant up
 vagrant ssh -c 'cd /vagrant/ && node server.js'
 ```
 
+4. Start watchify
+```bash
+./node_modules/.bin/watchify static/scripts/index.js -o static/scripts/main.js -t reactify
+```
+
 ## Plan:
 1. Refactor router to use controllers (see router.js)
 2. Add Browserify library
@@ -46,9 +51,9 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
 * Column picker
 * Do I really need React keys?
 * Automatically Headerize column names into labels by default
-  
+
 ## Advantages of Browserify - http://browserify.org/index.html
-1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs) 
+1. Doesn't require a separate browser package manager stack, example: (bower + bower-requirejs + requirejs)
 2. Use NPM packages and NodeJS tools in the browser
 3. Preferred way to require ReactJS
 4. Good documentation
