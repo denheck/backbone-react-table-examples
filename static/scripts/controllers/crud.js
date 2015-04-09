@@ -1,4 +1,5 @@
 var Users = require('../collections/users');
+var Jobs = require('../collections/jobs');
 var React = require('react');
 var $ = require('jquery');
 var BackboneReactTable = require('backbone-react-table');
@@ -10,6 +11,7 @@ var TableRow = BackboneReactTable.TableRow;
  */
 module.exports = (function () {
     var users = new Users();
+    var jobs = new Jobs();
 
     var UserForm = React.createClass({
         handleSubmit: function (e) {
@@ -51,6 +53,7 @@ module.exports = (function () {
     return {
         list: function () {
             users.fetch();
+            jobs.fetch();
 
             /**
              * render my components in the DOM
@@ -69,7 +72,7 @@ module.exports = (function () {
                  *                      headerColumnCallback: Function to add custom header column. Should return React component
                  */
 
-                var options = {
+                var userTableOptions = {
                     columns: [
                         {
                             name: "select",
@@ -113,8 +116,31 @@ module.exports = (function () {
                     }
                 };
 
+                var jobTableOptions = {
+                    columns: [
+                        {
+                            name: 'company',
+                            label: 'company',
+                            sort: true
+                        },
+                        {
+                            name: 'title',
+                            label: 'title',
+                            sort: true
+                        },
+                        {
+                            name: 'country',
+                            label: 'country',
+                            sort: true
+                        }
+                    ]
+                };
+
                 React.render(
-                    <Table options={options} collection={users} />,
+                    <div>
+                        <Table options={userTableOptions} collection={users} />
+                        <Table options={jobTableOptions} collection={jobs} />
+                    </div>,
                     document.getElementById('main')
                 );
             });
