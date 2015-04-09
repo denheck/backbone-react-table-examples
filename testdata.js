@@ -29,6 +29,8 @@ Job.remove({}, function (err) {
 
 var userData = require('./user-data.json');
 var jobData = require('./job-data.json');
+var total = userData.length + jobData.length;
+var count = 0;
 
 userData.forEach(function(item) {
     var user = new User();
@@ -39,8 +41,13 @@ userData.forEach(function(item) {
     user.country = item.country;
 
     user.save(function(err) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+            process.exit(1);
+        }
+
         console.log('User created with first name: ' + item.first_name);
+        if (++count >= total) process.exit(0);
     });
 });
 
@@ -52,7 +59,12 @@ jobData.forEach(function(item) {
     job.country = item.country;
 
     job.save(function(err) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+            process.exit(1);
+        }
+
         console.log('Job created with company: ' + item.company);
+        if (++count >= total) process.exit(0);
     });
 });
