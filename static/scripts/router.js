@@ -1,10 +1,14 @@
 var Backbone = require('backbone');
-var CrudController = require('./controllers/crud');
+var JobsController = require('./controllers/jobs');
+var UsersController = require('./controllers/users');
 
 module.exports = Backbone.Router.extend({
-    routes: {
-        "things": CrudController.list,
-        "things/create": CrudController.create,
-        "things/edit/id/:id": CrudController.edit
+    initialize: function() {
+        this.controllers = {
+            jobs: new JobsController({router: this}),
+            users: new UsersController({router: this})
+        };
+
+        Backbone.history.start();
     }
 });
