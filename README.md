@@ -18,7 +18,7 @@ vagrant ssh -c 'cd /vagrant/ && node server.js'
 
 4. Start watchify
 ```bash
-./node_modules/.bin/watchify static/ripts/index.js -o static/scripts/main.js -t reactify -v -d --extension=.jsx
+./node_modules/.bin/watchify static/scripts/index.js -o static/scripts/main.js -t reactify -v -d --extension=.jsx
 ```
 
 ## Plan:
